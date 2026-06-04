@@ -1,22 +1,50 @@
 import { Link } from "react-router-dom";
+import { useUIStore } from "@/store/useUIStore";
 
 const STATS = [
-  { value: "50K+", label: "Products" },
+  { value: "50K+",  label: "Products" },
   { value: "200K+", label: "Customers" },
-  { value: "4.9★", label: "Rating" },
+  { value: "4.9★",  label: "Rating" },
   { value: "2-Day", label: "Delivery" },
 ];
 
 export default function HeroSection() {
-  return (
-    <section className="relative overflow-hidden min-h-[88vh] flex items-center">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0B0B0B] via-[#111118] to-[#0B0B0B]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(212,175,55,0.08),transparent)]" />
+  const { theme } = useUIStore();
+  const isDark = theme === "dark";
 
-      {/* Grid lines */}
-      <div className="absolute inset-0 opacity-[0.03]"
-        style={{ backgroundImage: "linear-gradient(rgba(212,175,55,0.5) 1px,transparent 1px),linear-gradient(90deg,rgba(212,175,55,0.5) 1px,transparent 1px)", backgroundSize: "60px 60px" }} />
+  return (
+    <section className="relative overflow-hidden min-h-[88vh] flex items-center bg-background">
+
+      {/* ── Background — adapts to theme ─────────────────────────── */}
+      {isDark ? (
+        <>
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0B0B0B] via-[#111118] to-[#0B0B0B]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(212,175,55,0.08),transparent)]" />
+          {/* Grid lines — dark only */}
+          <div
+            className="absolute inset-0 opacity-[0.03]"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(212,175,55,0.5) 1px,transparent 1px),linear-gradient(90deg,rgba(212,175,55,0.5) 1px,transparent 1px)",
+              backgroundSize: "60px 60px",
+            }}
+          />
+        </>
+      ) : (
+        <>
+          <div className="absolute inset-0 bg-gradient-to-br from-[#f8f6f0] via-[#faf8f2] to-[#f5f3ec]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(212,175,55,0.12),transparent)]" />
+          {/* Grid lines — light mode, slightly darker */}
+          <div
+            className="absolute inset-0 opacity-[0.06]"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(180,140,20,0.5) 1px,transparent 1px),linear-gradient(90deg,rgba(180,140,20,0.5) 1px,transparent 1px)",
+              backgroundSize: "60px 60px",
+            }}
+          />
+        </>
+      )}
 
       {/* Floating orbs */}
       <div className="absolute top-20 right-20 w-72 h-72 bg-gold/5 rounded-full blur-3xl animate-float pointer-events-none" />
@@ -25,9 +53,10 @@ export default function HeroSection() {
       <div className="section-container relative z-10 py-20">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
 
-          {/* Left — copy */}
+          {/* ── Left — copy ───────────────────────────────────────── */}
           <div className="animate-slide-in-bottom">
-            {/* Label */}
+
+            {/* Label pill */}
             <div className="flex items-center gap-3 mb-6">
               <div className="flex items-center gap-1.5 px-3 py-1.5 glass-gold rounded-full border border-gold/20">
                 <span className="w-1.5 h-1.5 bg-gold rounded-full animate-pulse" />
@@ -35,25 +64,34 @@ export default function HeroSection() {
               </div>
             </div>
 
-            {/* Headline */}
+            {/* Headline — explicit colors, not dependent on CSS var timing */}
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-black leading-[1.0] mb-6">
-              Shop
+              <span className={isDark ? "text-white" : "text-gray-900"}>Shop</span>
               <span className="block text-gold-gradient">Premium</span>
-              <span className="block text-foreground">Products</span>
+              <span className={`block ${isDark ? "text-white" : "text-gray-900"}`}>Products</span>
             </h1>
 
             {/* Subheadline */}
-            <p className="text-muted-foreground text-lg leading-relaxed mb-10 max-w-lg">
-              Electronics, fashion, beauty & more — delivered to your door in days. Quality guaranteed, prices unmatched.
+            <p className={`text-lg leading-relaxed mb-10 max-w-lg ${isDark ? "text-gray-400" : "text-gray-600"}`}>
+              Electronics, fashion, beauty &amp; more — delivered to your door in days.
+              Quality guaranteed, prices unmatched.
             </p>
 
             {/* CTAs */}
             <div className="flex flex-wrap gap-4 mb-12">
-              <Link to="/products" className="btn-gold inline-flex items-center gap-2 h-12 px-8 rounded-xl text-sm font-display font-bold shadow-xl shadow-gold/20">
+              <Link
+                to="/products"
+                className="btn-gold inline-flex items-center gap-2 h-12 px-8 rounded-xl text-sm font-display font-bold shadow-xl shadow-gold/20"
+              >
                 Shop Now
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/></svg>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
               </Link>
-              <Link to="/products?sort=sale" className="inline-flex items-center gap-2 h-12 px-8 rounded-xl text-sm font-display font-semibold border border-border hover:border-gold/40 hover:text-gold transition-all">
+              <Link
+                to="/products?sort=sale"
+                className="inline-flex items-center gap-2 h-12 px-8 rounded-xl text-sm font-display font-semibold border border-border hover:border-gold/40 hover:text-gold text-foreground transition-all"
+              >
                 View Deals
                 <span className="px-1.5 py-0.5 bg-destructive/20 text-destructive text-xs rounded font-mono">SALE</span>
               </Link>
@@ -70,10 +108,15 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Right — product showcase */}
+          {/* ── Right — product showcase ─────────────────────────── */}
           <div className="relative hidden lg:flex items-center justify-center">
+
             {/* Main product card */}
-            <div className="relative z-10 glass rounded-3xl p-6 border border-white/10 shadow-2xl w-72">
+            <div className={`relative z-10 rounded-3xl p-6 border shadow-2xl w-72 ${
+              isDark
+                ? "glass border-white/10"
+                : "bg-white/80 backdrop-blur-xl border-black/8 shadow-black/10"
+            }`}>
               <div className="aspect-square rounded-2xl overflow-hidden bg-surface-elevated mb-4 img-zoom">
                 <img
                   src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80"
@@ -82,39 +125,49 @@ export default function HeroSection() {
                 />
               </div>
               <p className="text-xs text-muted-foreground font-mono uppercase tracking-widest mb-1">Electronics</p>
-              <h3 className="font-display font-bold text-sm mb-2 leading-snug">Sony WH-1000XM5 Wireless Headphones</h3>
+              <h3 className="font-display font-bold text-sm mb-2 leading-snug text-foreground">
+                Sony WH-1000XM5 Wireless Headphones
+              </h3>
               <div className="flex items-center justify-between">
                 <span className="text-lg font-display font-black text-gold-gradient">₦185,000</span>
                 <span className="badge-sale text-xs">-24%</span>
               </div>
             </div>
 
-            {/* Floating mini cards */}
-            <div className="absolute -left-8 top-10 glass rounded-2xl p-3 border border-white/10 shadow-xl w-44 animate-float" style={{ animationDelay: "1s" }}>
+            {/* Floating mini card — Nike */}
+            <div className={`absolute -left-8 top-10 rounded-2xl p-3 border shadow-xl w-44 animate-float ${
+              isDark ? "glass border-white/10" : "bg-white/90 backdrop-blur-xl border-black/8"
+            }`} style={{ animationDelay: "1s" }}>
               <div className="flex items-center gap-2">
                 <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=100&q=80" alt="" className="w-10 h-10 rounded-lg object-cover" />
                 <div>
-                  <p className="text-[10px] font-semibold leading-tight">Nike Air Jordan 1</p>
+                  <p className="text-[10px] font-semibold leading-tight text-foreground">Nike Air Jordan 1</p>
                   <p className="text-[10px] text-gold font-mono">₦95,000</p>
                 </div>
               </div>
             </div>
 
-            <div className="absolute -right-6 bottom-16 glass rounded-2xl p-3 border border-white/10 shadow-xl w-44 animate-float" style={{ animationDelay: "2s" }}>
+            {/* Floating mini card — PS5 */}
+            <div className={`absolute -right-6 bottom-16 rounded-2xl p-3 border shadow-xl w-44 animate-float ${
+              isDark ? "glass border-white/10" : "bg-white/90 backdrop-blur-xl border-black/8"
+            }`} style={{ animationDelay: "2s" }}>
               <div className="flex items-center gap-2">
                 <img src="https://images.unsplash.com/photo-1607853202273-797f1c22a38e?w=100&q=80" alt="" className="w-10 h-10 rounded-lg object-cover" />
                 <div>
-                  <p className="text-[10px] font-semibold leading-tight">PlayStation 5</p>
+                  <p className="text-[10px] font-semibold leading-tight text-foreground">PlayStation 5</p>
                   <p className="text-[10px] text-gold font-mono">₦450,000</p>
                 </div>
               </div>
             </div>
 
-            {/* Trust badge floating */}
-            <div className="absolute top-0 right-4 glass rounded-xl px-3 py-2 border border-white/10">
-              <p className="text-[10px] text-emerald-400 font-mono font-semibold">✓ Verified Authentic</p>
+            {/* Trust badge */}
+            <div className={`absolute top-0 right-4 rounded-xl px-3 py-2 border ${
+              isDark ? "glass border-white/10" : "bg-white/90 backdrop-blur-xl border-black/8"
+            }`}>
+              <p className="text-[10px] text-emerald-500 font-mono font-semibold">✓ Verified Authentic</p>
             </div>
           </div>
+
         </div>
       </div>
     </section>

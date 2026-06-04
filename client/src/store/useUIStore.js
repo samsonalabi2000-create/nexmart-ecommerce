@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export const useUIStore = create((set) => ({
+export const useUIStore = create((set, get) => ({
   theme: localStorage.getItem("nexmart_theme") || "dark",
   searchOpen: false,
   mobileMenuOpen: false,
@@ -8,13 +8,18 @@ export const useUIStore = create((set) => ({
 
   setTheme: (theme) => {
     localStorage.setItem("nexmart_theme", theme);
+    // Apply immediately to <html>
+    document.documentElement.classList.remove("light", "dark");
+    document.documentElement.classList.add(theme);
     set({ theme });
   },
 
   toggleTheme: () => {
-    const current = localStorage.getItem("nexmart_theme") || "dark";
-    const next = current === "dark" ? "light" : "dark";
+    const next = get().theme === "dark" ? "light" : "dark";
     localStorage.setItem("nexmart_theme", next);
+    // Apply immediately to <html>
+    document.documentElement.classList.remove("light", "dark");
+    document.documentElement.classList.add(next);
     set({ theme: next });
   },
 
@@ -22,3 +27,8 @@ export const useUIStore = create((set) => ({
   setMobileMenuOpen: (open) => set({ mobileMenuOpen: open }),
   setQuickViewProduct: (product) => set({ quickViewProduct: product }),
 }));
+
+
+
+
+

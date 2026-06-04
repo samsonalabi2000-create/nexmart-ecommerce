@@ -6,12 +6,12 @@ import AppRoutes from "@/assets/routes/AppRoutes";
 export default function App() {
   const { theme } = useUIStore();
 
-  // Apply theme class to <html> on mount and on theme change
+  // Apply theme class on first mount only.
+  // All subsequent changes are handled directly in useUIStore.toggleTheme()
   useEffect(() => {
-    const root = document.documentElement;
-    root.classList.remove("light", "dark");
-    root.classList.add(theme);
-  }, [theme]);
+    document.documentElement.classList.remove("light", "dark");
+    document.documentElement.classList.add(theme);
+  }, []); // empty deps — runs once on mount
 
   return (
     <Layout>

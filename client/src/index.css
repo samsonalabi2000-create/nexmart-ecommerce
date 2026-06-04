@@ -76,7 +76,7 @@
 }
 
 @layer components {
-  /* Glass morphism */
+  /* Glass morphism — dark mode default */
   .glass {
     background: rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(20px);
@@ -84,10 +84,24 @@
     border: 1px solid rgba(255, 255, 255, 0.08);
   }
 
+  /* Glass in light mode — use a white/light tint instead */
+  .light .glass {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
   .glass-gold {
     background: rgba(212, 175, 55, 0.08);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(212, 175, 55, 0.2);
+  }
+
+  /* Light mode glass-gold gets a bit more contrast */
+  .light .glass-gold {
+    background: rgba(212, 175, 55, 0.12);
+    border: 1px solid rgba(212, 175, 55, 0.3);
   }
 
   /* Gold shimmer button */
@@ -152,9 +166,17 @@
     pointer-events: none;
   }
 
-  /* Gold text */
+  /* Gold text — dark mode */
   .text-gold-gradient {
     background: linear-gradient(135deg, #D4AF37, #F7E98E, #D4AF37);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Gold text — light mode (darker gold so it's not washed out on white) */
+  .light .text-gold-gradient {
+    background: linear-gradient(135deg, #B8860B, #D4AF37, #B8860B);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
