@@ -194,10 +194,10 @@ export default function Navbar() {
             {/* ── Right icons ──────────────────────────────────────── */}
             <div className="flex items-center gap-1 ml-auto">
 
-              {/* Theme toggle — desktop only (sm+). On mobile it lives in the hamburger menu */}
+              {/* Theme toggle — large screens only. Mobile has its own beside the hamburger */}
               <button
                 onClick={toggleTheme}
-                className="hidden sm:flex p-2 rounded-lg hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors"
+                className="hidden lg:flex p-2 rounded-lg hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors"
                 aria-label="Toggle theme"
               >
                 {isDark ? <SunIcon /> : <MoonIcon />}
