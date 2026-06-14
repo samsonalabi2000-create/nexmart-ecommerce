@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { productService, categoryService } from "@/services/api";
 import { useCountdown, useIntersection } from "@/hooks";
@@ -75,8 +75,9 @@ export function BestSellers() {
 export function FlashSales() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const target = new Date(Date.now() + 8 * 3600 * 1000); // 8 hours from now
-  const { hours, minutes, seconds } = useCountdown(target);
+  // useMemo so the timestamp is created ONCE and never changes
+  const targetTimestamp = useMemo(() => Date.now() + 8 * 3600 * 1000, []);
+  const { hours, minutes, seconds } = useCountdown(targetTimestamp);
 
   useEffect(() => {
     productService.getFlashSales().then((p) => { setProducts(p); setLoading(false); });
@@ -229,31 +230,9 @@ export function MarqueeBrands() {
 
 // ─── Testimonials — 3D Space/Particle Section ────────────────────────────────
 
-const EXTENDED_REVIEWS = [
-  ...TESTIMONIALS,
-  {
-    id: 5,
-    name: "Blessing Okonkwo",
-    location: "Enugu, Nigeria",
-    rating: 5,
-    comment: "I've been shopping on NexMart for 6 months. Every single order has been perfect. The quality checks are real.",
-    avatar: "BO",
-    verified: true,
-    date: "1 month ago",
-    product: "iPhone 15 Pro Max",
-  },
-  {
-    id: 6,
-    name: "Yusuf Musa",
-    location: "Kaduna, Nigeria",
-    rating: 5,
-    comment: "Ordered PS5 during the flash sale — saved ₦50,000. Delivered in 48 hours. This is the future of Nigerian e-commerce.",
-    avatar: "YM",
-    verified: true,
-    date: "1 month ago",
-    product: "PlayStation 5",
-  },
-];
+// TESTIMONIALS from mockData already includes all 6 reviews (ids 1-6)
+// We use it directly — no need to extend it here
+const EXTENDED_REVIEWS = TESTIMONIALS;
 
 // Particle canvas — animated star field
 function ParticleCanvas() {
@@ -541,7 +520,7 @@ export function Testimonials() {
           )}
         >
           {EXTENDED_REVIEWS.map((review, i) => (
-            <ReviewCard key={review.id} review={review} index={i} />
+            <ReviewCard key={`review-${review.id}`} review={review} index={i} />
           ))}
         </div>
       </div>

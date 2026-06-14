@@ -9,8 +9,8 @@
  */
 
 import axios from "axios";
-import { PRODUCTS, CATEGORIES, BRANDS, TESTIMONIALS, FLASH_SALES, BEST_SELLERS, NEW_ARRIVALS } from "./MockData";
-import { sleep } from "./Utils";
+import { PRODUCTS, CATEGORIES, BRANDS, TESTIMONIALS, FLASH_SALES, BEST_SELLERS, NEW_ARRIVALS } from "@/lib/mockData";
+import { sleep } from "@/lib/utils";
 
 const API_URL = import.meta.env.VITE_API_URL;
 const USE_MOCK = !API_URL;

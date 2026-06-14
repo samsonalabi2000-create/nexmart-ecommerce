@@ -8,9 +8,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'display': ['"Clash Display"', '"Syne"', 'sans-serif'],
-        'body': ['"Cabinet Grotesk"', '"DM Sans"', 'sans-serif'],
-        'mono': ['"JetBrains Mono"', 'monospace'],
+        'display': ['"Orbitron"', 'sans-serif'],
+        'body':    ['"Space Grotesk"', 'sans-serif'],
+        'mono':    ['"Space Mono"', 'monospace'],
       },
       colors: {
         border: "hsl(var(--border))",

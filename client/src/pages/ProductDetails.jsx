@@ -7,10 +7,12 @@ import { useWishlistStore } from "@/store/useWishlistStore";
 import { formatPrice, formatDiscount, cn } from "@/lib/utils";
 import { StarRating, Badge, Spinner, ProductCardSkeleton } from "@/components/ui/index";
 import ProductCard from "@/components/product/ProductCard";
-
+import { useTrackRecentlyViewed } from "@/components/shared/RecentlyViewed";
 export default function ProductDetails() {
   const { id } = useParams();
   const { product, loading, error } = useProduct(id);
+  // Track this product as recently viewed
+  useTrackRecentlyViewed(product);
   const [activeImg, setActiveImg] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState("description");

@@ -8,6 +8,7 @@ import {
   MarqueeBrands,
   NewsletterSection,
 } from "@/components/home/Sections";
+import RecentlyViewed from "@/components/shared/RecentlyViewed";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <BestSellers />
       <FlashSales />
       <NewArrivals />
+      <RecentlyViewed />
       <Testimonials />
       <NewsletterSection />
     </>

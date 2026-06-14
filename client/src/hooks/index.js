@@ -12,15 +12,16 @@ export function useDebounce(value, delay = 300) {
 }
 
 // ─── useCountdown ─────────────────────────────────────────────────────────────
-export function useCountdown(targetDate) {
+// Pass a stable timestamp (number) — NOT a Date object — to avoid infinite loops
+export function useCountdown(targetTimestamp) {
   const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
     const calc = () => {
-      const diff = new Date(targetDate) - new Date();
+      const diff = targetTimestamp - Date.now();
       if (diff <= 0) return setTimeLeft({ hours: 0, minutes: 0, seconds: 0 });
       setTimeLeft({
-        hours: Math.floor(diff / 3600000),
+        hours:   Math.floor(diff / 3600000),
         minutes: Math.floor((diff % 3600000) / 60000),
         seconds: Math.floor((diff % 60000) / 1000),
       });
@@ -28,7 +29,7 @@ export function useCountdown(targetDate) {
     calc();
     const t = setInterval(calc, 1000);
     return () => clearInterval(t);
-  }, [targetDate]);
+  }, [targetTimestamp]); // stable number — never changes reference
 
   return timeLeft;
 }
